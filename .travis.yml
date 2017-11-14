@@ -4,13 +4,15 @@ services:
 - docker
 env:
   global:
-    secure: aYAE22e5yapGVqIdGCO2PjepBCzXcyoQuhfmjETlrZ3Z9KVvon1/+fNWAvZgAcc9mik3mgG5VWHJwEA32bhFvFpmUpeOx8wVwl4owHGP7xTspfQeFF2Xs0xyXb9dW9xBrZWXCUEWD6+X0hgmgNlS1GSom3b7MMguGkc9JKEPCgMeRab9NWRtCM9jts9iMsNH8YmCp3LLShu5wvwh4CVgdCVvdsMN53D0IvyPNbWoxqQXknLT/FQFVyUXr67smuiu3Wlnsw/+sTddxBElJXuB29ZB29qCm/qHIJdoSUbW16IbtKQMrbbWcg0GG6+XjXY3d0VNnSoIOzLWeJGaOI8pPaANoqampHqMBS/n/MGYrjvvVUCuJ/qfygD1tAIMXvgZP3f4rtdR2eHFqjySXBRkR6SmG6clqar/Vyimod+FjrHJnCBexH17f4/TcO7zcWsFxN7x0y5wXcgkdzK14ZPr7+WQ1H9N+j1tu2qdvabnfsDP4ge0yXnZseQFGWwp3IOJ1O6EhzzCtlkQ6hlA1OxKpBdOe5ql7jvm4dSGBW0uGrmSMYnH9YD8/IDoxOzhZxtq9G32RrOyOwJADb9x7+U1zLBfUDTV/vpjDG/hcUZtCmTM9qjURK1+vRVT6y5px8xpLv0dY6+pqgzZBPosXsNHIG7v+092rJIl2UlKHZex/Dw=
+    secure: "y9HFEBMYcSvSbC+HlzczuA3k22WNOEqGQ9+NTMnm+4MGsI+TZaPWAx4qCQ0jovGwJFmyjC2XiAeFopegs3asmaYnzhXwh1YLz7AYTs5SNfwXX2Y+vXSedYXjkVC3vwt6c6nknPdlHslmNDF6t6JPpEMx8ZE7+Fk6g1V/4hxKJ8bfLW/OfxO9yO1S0IUkZjkFSUxKoACIYOtp29MCKBfyCHucn9YSSGE1shnmtmnnUZ70Sa0M+CYWaZ+czqyZ+h9TpkK7WFC1akcAnWkJfZdy3m1GxW5ss50Qy9u381DWrJBAbFvi2RfEetPFmwg1Y4IV9Fr2m5d2lbDE7mmDqd9ACmTr9PhWVEhexeVke0nrWro3MbWGgCMT/HqNqR7gkerXN+jZGK2w7MF+HFJV6+5g5UEbdGn+PSO6H4ACQEL3BYJ2lacuXswR/lrqQd5sVeseUWhtsvfzVFHo9dCW7FlqjqwX9hJBd0LquQ1vJUI+HdOI755VxolQy7FdASthffkN8CZ9vG86ucfdHEes2kesHjTYfWYQAaXUMA8qpdo3YuvTRum9T29cCBCI7MhiDMx8yIW6qeznGPxxcYX22ntepceCFZgWI8xjipN92p+TbavBlZp/vmm5BwKViWBGn0gy0izahCs+aGFn5HAzAd84vyM4Y1S3Bg+aPurBs0ylpoI="
 script:
-- sudo docker build -t henrywangxf/fedora:latest .
+- |
+      sudo docker build -t henrywangxf/fedora:latest .
 after_success:
 - |
-  sudo docker tag henrywangxf/fedora:latest henrywangxf/fedora:$TRAVIS_BUILD_NUMBER
-  sudo docker push henrywangxf/fedora
+      sudo docker login -u henrywangxf -p $DOCKER_PASSWORD
+      sudo docker tag henrywangxf/fedora:latest henrywangxf/fedora:$TRAVIS_BUILD_NUMBER
+      sudo docker push henrywangxf/fedora
 notifications:
   email:
     on_failure: change
