@@ -1,0 +1,43 @@
+FROM fedora:latest
+MAINTAINER Xiaofeng Wang <xiaofwan@redhat.com>
+
+ENV LAST_UPDATE=2017-12-05
+
+# man and less are needed to view 'aws <command> help'
+# ssh allows us to log in to new instances
+# vim is useful to write shell scripts
+# python* is needed to install aws cli using pip install
+RUN dnf -y update && \
+    dnf install -y \
+    curl \
+    less \
+    man \
+    openssh-clients \
+    jq \
+    groff \
+    python \
+    python-pip \
+    vim && \
+    dnf clean all
+
+# Set the timezone
+RUN echo "Asia/Shanghai" | tee /etc/timezone && \
+    ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# Set the locale for UTF-8 support
+RUN echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
+ENV LANG en_US.UTF-8
+
+# AWS CLI needs the PYTHONIOENCODING environment variable to handle UTF-8 correctly
+ENV PYTHONIOENCODING=UTF-8
+
+RUN adduser -d /home/aws -s /bin/bash aws
+
+USER aws
+WORKDIR /home/aws
+RUN pip install --upgrade --user awscli && export PATH=/home/aws/.local/bin:$PATH
+COPY entrypoint_awscli.sh /
+
+VOLUME ["/home/aws/.aws"]
+
+ENTRYPOINT ["/entrypoint_awscli.sh"]

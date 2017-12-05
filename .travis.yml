@@ -8,10 +8,12 @@ env:
 script:
 - |
       sudo docker build -t henrywangxf/fedora:latest .
+      sudo docker build -f Dockerfile.awscli -t henrywangxf/awscli:latest .
 after_success:
 - |
       sudo docker login -u henrywangxf -p $DOCKER_PASSWORD
       sudo docker tag henrywangxf/fedora:latest henrywangxf/fedora:$TRAVIS_BUILD_NUMBER
+      sudo docker tag henrywangxf/awscli:latest henrywangxf/awscli:$TRAVIS_BUILD_NUMBER
       sudo docker push henrywangxf/fedora
 notifications:
   email:
