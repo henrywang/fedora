@@ -15,6 +15,7 @@ after_success:
       sudo docker tag henrywangxf/fedora:latest henrywangxf/fedora:$TRAVIS_BUILD_NUMBER
       sudo docker tag henrywangxf/awscli:latest henrywangxf/awscli:$TRAVIS_BUILD_NUMBER
       sudo docker push henrywangxf/fedora
+      sudo docker push henrywangxf/awscli
 notifications:
   email:
     on_failure: change
